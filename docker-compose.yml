@@ -41,5 +41,16 @@ services:
     privileged: true
     volumes:
       - /sys/class/gpio/:/sys/class/gpio/
-      
+
+  display:
+    restart: always
+    image: rem/display
+    environment:
+      - DATASERVICE_HOST=dataservice:8080
+    depends_on:
+      - dataservice
+    privileged: true
+    volumes:
+      - /dev/fb1:/dev/fb1
+      - /dev/input/touchscreen:/dev/input/touchscreen
 
