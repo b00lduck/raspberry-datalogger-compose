@@ -1,0 +1,45 @@
+version: '2'
+services:
+  mysql:
+    restart: always
+    image: hypriot/rpi-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - /var/lib/mysql_docker:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  dataservice:
+    restart: always
+    image: rem/dataservice
+    environment:
+      - MYSQL_HOST=mysql:3306
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+
+  serial:
+    restart: always
+    image: rem/serial
+    environment:
+      - DATASERVICE_HOST=dataservice:8080
+    depends_on:
+      - dataservice
+    volumes:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    privileged: true
+
+  acquisition:
+    restart: always
+    image: rem/acquisition
+    environment:
+      - DATASERVICE_HOST=dataservice:8080
+    depends_on:
+      - dataservice
+    privileged: true
+    volumes:
+      - /sys/class/gpio/:/sys/class/gpio/
+      
+
