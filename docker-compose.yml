@@ -7,18 +7,16 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - /var/lib/mysql_docker:/var/lib/mysql
-    ports:
-      - 3306:3306
 
   dataservice:
     restart: always
     image: rem/dataservice
     environment:
       - MYSQL_HOST=mysql:3306
-    ports:
-      - 8080:8080
     depends_on:
       - mysql
+    ports:
+      - 8080:8080
 
   serial:
     restart: always
