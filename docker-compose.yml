@@ -40,6 +40,14 @@ services:
     volumes:
       - /sys/class/gpio/:/sys/class/gpio/
 
+  temperature:
+    restart: always
+    image: rem/temperature
+    environment:
+      - DATASERVICE_HOST=dataservice:8080
+    depends_on:
+      - dataservice
+
   display:
     restart: always
     image: rem/display
