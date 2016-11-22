@@ -16,4 +16,7 @@ cd $OPWD/../gopath/src/github.com/b00lduck/raspberry-datalogger-acquisition
 cd $OPWD/../gopath/src/github.com/b00lduck/raspberry-datalogger-display
 ./build-docker.sh 
 
+cd $OPWD/../gopath/src/github.com/b00lduck/raspberry-datalogger-temperature
+./build-docker.sh
+
 cd $OPWD
