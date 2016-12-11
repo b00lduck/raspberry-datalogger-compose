@@ -20,16 +20,13 @@ services:
     ports:
       - 8080:8080
 
-  serial:
+  vcontrold:
     restart: always
-    image: rem/serial
-    environment:
-      - DATASERVICE_HOST=dataservice:8080
-    depends_on:
-      - dataservice
-    volumes:
-      - /dev/ttyUSB0:/dev/ttyUSB0
-    privileged: true
+    image: rem/vcontrold
+    devices:
+      - /dev/ttyUSB1
+    ports:
+     - 3002:3002
 
   acquisition:
     restart: always
