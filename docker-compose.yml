@@ -10,6 +10,14 @@ services:
     ports:
       - 3306:3306
 
+  influxdb:
+    restart: always
+    image: rem/rpi-influxdb
+    volumes:
+      - /influxdb:/influxdb
+    ports:
+      - 8086:8086
+
   dataservice:
     restart: always
     image: rem/dataservice
@@ -17,6 +25,7 @@ services:
       - MYSQL_HOST=mysql:3306
     depends_on:
       - mysql
+      - influxdb
     ports:
       - 8080:8080
 
