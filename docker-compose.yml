@@ -14,9 +14,21 @@ services:
     restart: always
     image: rem/rpi-influxdb
     volumes:
-      - /influxdb:/influxdb
+      - /opt/influxdb:/influxdb
     ports:
       - 8086:8086
+      - 8083:8083
+
+  grafana:
+    restart: always
+    image: heziegl/rpi-grafana:3.1.1
+    ports:
+      - 3000:3000
+    volumes:
+      - /opt/grafana/etc:/etc/grafana
+      - /opt/grafana/data:/data
+    depends_on:
+      - influxdb
 
   dataservice:
     restart: always
