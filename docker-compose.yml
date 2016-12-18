@@ -16,8 +16,7 @@ services:
     volumes:
       - /opt/influxdb:/influxdb
     ports:
-      - 8086:8086
-      - 8083:8083
+      - 8086
 
   grafana:
     restart: always
@@ -34,9 +33,9 @@ services:
     restart: always
     image: rem/dataservice
     environment:
-      - MYSQL_HOST=mysql:3306
+      - INFLUXDB_DATABASE=energy
+      - INFLUXDB_HOST=influxdb:8086
     depends_on:
-      - mysql
       - influxdb
     ports:
       - 8080:8080

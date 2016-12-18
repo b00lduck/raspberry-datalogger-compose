@@ -25,5 +25,4 @@ cd $OPWD/../gopath/src/github.com/b00lduck/raspberry-datalogger-temperature
 cd $OPWD/../vcontrold-docker
 docker build -t rem/vcontrold:latest .
 
-
 cd $OPWD
