@@ -62,6 +62,7 @@ services:
     image: rem/vcontrol
     environment:
       - DATASERVICE_HOST=dataservice:8080
+      - VCONTROLD_HOST=vcontrold:3002
     depends_on:
       - dataservice
 
