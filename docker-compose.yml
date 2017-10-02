@@ -1,40 +1,11 @@
 version: '2'
 services:
-  influxdb:
-    restart: always
-    image: rem/rpi-influxdb
-    volumes:
-      - /opt/influxdb:/influxdb
-    ports:
-      - 8086:8086
-
-  grafana:
-    restart: always
-    image: heziegl/rpi-grafana:3.1.1
-    ports:
-      - 3000:3000
-    volumes:
-      - /opt/grafana/etc:/etc/grafana
-      - /opt/grafana/data:/data
-    depends_on:
-      - influxdb
-
-  dataservice:
-    restart: always
-    image: rem/dataservice
-    environment:
-      - INFLUXDB_DATABASE=energy
-      - INFLUXDB_HOST=influxdb:8086
-    depends_on:
-      - influxdb
-    ports:
-      - 8080
 
   vcontrold:
     restart: always
     image: rem/vcontrold
     devices:
-      - /dev/ttyUSB1
+      - /dev/ttyUSB0
     ports:
      - 3002
 
@@ -42,9 +13,7 @@ services:
     restart: always
     image: rem/acquisition
     environment:
-      - DATASERVICE_HOST=dataservice:8080
-    depends_on:
-      - dataservice
+      - DATASERVICE_HOST=192.168.2.100:8080
     privileged: true
     volumes:
       - /sys/class/gpio/:/sys/class/gpio/
@@ -52,28 +21,23 @@ services:
   temperature:
     restart: always
     image: rem/temperature
+    dns: 192.168.2.1
     environment:
-      - DATASERVICE_HOST=dataservice:8080
-    depends_on:
-      - dataservice
+      - DATASERVICE_HOST=192.168.2.100:8080
 
   vcontrol:
     restart: always
     image: rem/vcontrol
     environment:
-      - DATASERVICE_HOST=dataservice:8080
+      - DATASERVICE_HOST=192.168.2.100:8080
       - VCONTROLD_HOST=vcontrold:3002
-    depends_on:
-      - dataservice
 
   display:
     restart: always
     image: rem/display
-    environment:
-      - DATASERVICE_HOST=dataservice:8080
-    depends_on:
-      - dataservice
     privileged: true
+    environment:
+      - DATASERVICE_HOST=192.168.2.100:8080
     volumes:
       - /dev/fb1:/dev/fb1
       - /dev/input/touchscreen:/dev/input/touchscreen
