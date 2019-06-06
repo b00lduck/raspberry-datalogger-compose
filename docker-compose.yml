@@ -1,14 +1,6 @@
 version: '2'
 services:
 
-  vcontrold:
-    restart: always
-    image: rem/vcontrold
-    devices:
-      - /dev/ttyUSB0
-    ports:
-     - 3002
-
   acquisition:
     restart: always
     image: rem/acquisition
@@ -24,13 +16,6 @@ services:
     dns: 192.168.2.1
     environment:
       - DATASERVICE_HOST=192.168.2.100:8080
-
-  vcontrol:
-    restart: always
-    image: rem/vcontrol
-    environment:
-      - DATASERVICE_HOST=192.168.2.100:8080
-      - VCONTROLD_HOST=vcontrold:3002
 
   display:
     restart: always
