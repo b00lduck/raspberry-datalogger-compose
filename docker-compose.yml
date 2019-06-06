@@ -3,7 +3,7 @@ services:
 
   acquisition:
     restart: always
-    image: rem/acquisition
+    build: ../raspberry-datalogger-acquisition
     environment:
       - DATASERVICE_HOST=192.168.2.100:8080
     privileged: true
@@ -12,18 +12,18 @@ services:
 
   temperature:
     restart: always
-    image: rem/temperature
+    build: ../raspberry-datalogger-temperature
     dns: 192.168.2.1
     environment:
       - DATASERVICE_HOST=192.168.2.100:8080
 
-  display:
-    restart: always
-    image: rem/display
-    privileged: true
-    environment:
-      - DATASERVICE_HOST=192.168.2.100:8080
-    volumes:
-      - /dev/fb1:/dev/fb1
-      - /dev/input/touchscreen:/dev/input/touchscreen
+#  display:
+#  restart: always
+#    build: ../raspberry-datalogger-display
+#    privileged: true
+#    environment:
+#      - DATASERVICE_HOST=192.168.2.100:8080
+#    volumes:
+#      - /dev/fb1:/dev/fb1
+#      - /dev/input/touchscreen:/dev/input/touchscreen
 
